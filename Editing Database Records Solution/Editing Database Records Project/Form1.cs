@@ -19,12 +19,15 @@ namespace Editing_Database_Records_Project
         SqlDataAdapter phoneAdapter;
         DataTable phoneTable;
         CurrencyManager phoneManager;
+        string myState;
+        int myBookmark;
         public frmPhoneDB()
         {
             InitializeComponent();
         }
         private void SetState(string appState)
         {
+            myState = appState;
             switch (appState)
             {
                 case "View":
@@ -35,6 +38,7 @@ namespace Editing_Database_Records_Project
                     btnEdit.Enabled = true;
                     btnSave.Enabled = false;
                     btnCancel.Enabled = false;
+                    btnAdd.Enabled = true;
                     txtID.BackColor = Color.White;
                     txtID.ForeColor = Color.Black;
                     txtName.ReadOnly = true;
@@ -48,6 +52,7 @@ namespace Editing_Database_Records_Project
                     btnEdit.Enabled = false;
                     btnSave.Enabled = true;
                     btnCancel.Enabled = true;
+                    btnAdd.Enabled = false;
                     txtID.BackColor = Color.Red;
                     txtID.ForeColor = Color.White;
                     txtName.ReadOnly = false;
@@ -132,7 +137,17 @@ namespace Editing_Database_Records_Project
         private void btnCancel_Click(object sender, EventArgs e)
         {
             phoneManager.CancelCurrentEdit();
+            if (myState.Equals("Add"))
+            {
+                phoneManager.Position = myBookmark;
+            }
             SetState("View");
+        }
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            myBookmark = phoneManager.Position;
+            SetState("Add");
+            phoneManager.AddNew();
         }
     }
 }
