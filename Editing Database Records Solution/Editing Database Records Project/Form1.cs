@@ -87,6 +87,10 @@ namespace Editing_Database_Records_Project
             txtNumber.DataBindings.Add("Text", phoneTable, "ContactName");
             phoneManager = (CurrencyManager)this.BindingContext[phoneTable];
             SetState("View");
+            foreach (DataRow phoneRow in phoneTable.Rows)
+            {
+                phoneRow["ContactNumber"] = "(206) " + phoneRow["ContactNumber"].ToString();
+            }
         }
 
         private void frmPhoneDB_FormClosing(object sender, FormClosingEventArgs e)
@@ -133,7 +137,12 @@ namespace Editing_Database_Records_Project
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
+            string savedName = txtName.Text;
+            int savedRow;
             phoneManager.EndCurrentEdit();
+            phoneTable.DefaultView.Sort = "ContactName";
+            savedRow = phoneTable.DefaultView.Find(savedName);
+            phoneManager.Position = savedRow;
             SetState("View");
         }
         private void btnCancel_Click(object sender, EventArgs e)
