@@ -39,6 +39,7 @@ namespace Editing_Database_Records_Project
                     btnSave.Enabled = false;
                     btnCancel.Enabled = false;
                     btnAdd.Enabled = true;
+                    btnDelete.Enabled = true;
                     txtID.BackColor = Color.White;
                     txtID.ForeColor = Color.Black;
                     txtName.ReadOnly = true;
@@ -53,6 +54,7 @@ namespace Editing_Database_Records_Project
                     btnSave.Enabled = true;
                     btnCancel.Enabled = true;
                     btnAdd.Enabled = false;
+                    btnDelete.Enabled = false;
                     txtID.BackColor = Color.Red;
                     txtID.ForeColor = Color.White;
                     txtName.ReadOnly = false;
@@ -148,6 +150,15 @@ namespace Editing_Database_Records_Project
             myBookmark = phoneManager.Position;
             SetState("Add");
             phoneManager.AddNew();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this record?", "Delete Record", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            {
+                phoneManager.RemoveAt(phoneManager.Position);
+            }
+            SetState("View");
         }
     }
 }
